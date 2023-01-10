@@ -19,6 +19,8 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 class KakaologinView(APIView):
     def post(self, request):
+        authorization_code = request.data['authorization_code']
+        print(authorization_code)
         # access_token = request.data.get('access_token')
 
         # # 카카오 API를 이용해 사용자 정보를 얻는다.
@@ -32,4 +34,6 @@ class KakaologinView(APIView):
 
         # # 응답 데이터를 확인한다.
         # kakao_user_data = response.json()
-        return Response('프론트하고 연결 테스트 성공', status=status.HTTP_200_OK)
+        if authorization_code:
+            return Response(authorization_code, status=status.HTTP_200_OK)
+        return Response("authorization code 없음", status=status.HTTP_200_OK)
