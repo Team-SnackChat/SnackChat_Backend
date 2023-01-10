@@ -58,6 +58,11 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     # add app
     'users',
+    # allauth, kakao
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.kakao',
 ]
 
 MIDDLEWARE = [
