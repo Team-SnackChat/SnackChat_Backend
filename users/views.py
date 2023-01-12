@@ -42,6 +42,9 @@ class KakaologinView(APIView):
         CLIENT_SECRET = get_secret('CLIENT_SECRET')
         redirect_uri = "http://localhost:3000/kakao-loading"
         
+        print(KAKAO_REST_API_KEY)
+        print(CLIENT_SECRET)
+        
         request_response = requests.post(
             f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={KAKAO_REST_API_KEY}&redirect_uri={redirect_uri}&code={authorization_code}&client_secret={CLIENT_SECRET}",
             headers={"Accept": "application/json"},
