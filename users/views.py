@@ -47,15 +47,12 @@ class KakaologinView(APIView):
             headers={"Accept": "application/json"},
         )
 
-        access_token = request_response['access_token']
-        refresh_token = request_response['refresh_token']
-        user_data = request_response['scope']
-        user_email = user_data['email']
-        print('userdata', user_data)
-        print(user_email)
-        
-        
+        print(request_response)
+        # access_token = request_response['access_token']
+        # refresh_token = request_response['refresh_token']
+        # user_data = request_response['scope']
+        # user_email = user_data['email']
+        # print('userdata', user_data)
+        # print(user_email)
 
-        if authorization_code:
-            return Response(authorization_code, status=status.HTTP_200_OK)
-        return Response("authorization code 없음", status=status.HTTP_200_OK)
+        return Response(request_response, status=status.HTTP_200_OK)
