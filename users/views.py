@@ -39,20 +39,23 @@ class KakaologinView(APIView):
                 raise ImproperlyConfigured(error_msg)
 
         KAKAO_REST_API_KEY = get_secret('KAKAO_REST_API_KEY')
+        CLIENT_SECRET = get_secret('CLIENT_SECRET')
+        redirect_uri = "http://localhost:3000/kakao-loading"
+        
+        request_response = requests.post(
+            f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={KAKAO_REST_API_KEY}&redirect_uri={redirect_uri}&code={authorization_code}&client_secret={CLIENT_SECRET}",
+            headers={"Accept": "application/json"},
+        )
 
-        # access_token = request.data.get('access_token')
+        access_token = request_response['access_token']
+        refresh_token = request_response['refresh_token']
+        user_data = request_response['scope']
+        user_email = user_data['email']
+        print('userdata', user_data)
+        print(user_email)
+        
+        
 
-        # # 카카오 API를 이용해 사용자 정보를 얻는다.
-        # url = 'https://kapi.kakao.com/v2/user/me'
-        # headers = {'Authorization': f'Bearer {access_token}'}
-        # response = requests.post(url, headers=headers)
-
-        # # 응답을 확인한다.
-        # if response.status_code != 200:
-        #     return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-        # # 응답 데이터를 확인한다.
-        # kakao_user_data = response.json()
         if authorization_code:
             return Response(authorization_code, status=status.HTTP_200_OK)
         return Response("authorization code 없음", status=status.HTTP_200_OK)
