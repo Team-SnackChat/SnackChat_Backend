@@ -49,8 +49,22 @@ class KakaologinView(APIView):
             f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={KAKAO_REST_API_KEY}&redirect_uri={redirect_uri}&code={authorization_code}&client_secret={CLIENT_SECRET}",
             headers={"Accept": "application/json"},
         ).json()
+        
+        """
+        {'access_token': 'S7PJEIRPnv_9GCHFpB5nZPLRHBB2fcI_C6NkVK7iCiolUQAAAYWl46gc', 
+        'token_type': 'bearer', 'refresh_token': 'vSPAoi-Ebu6lav-Qwj550_7t46OT1cTW1_nfVW4BCiolUQAAAYWl46gb', 
+        'expires_in': 21599, 'scope': 'account_email profile_nickname', 
+        'refresh_token_expires_in': 5183999}
+        """
 
-        print(request_response)
+        kakao_access_token = request_response['access_token']
+
+        user_request_response = requests.get(
+            f"https://kapi.kakao.com/v2/user/me",
+            headers={"Authorization":f"Bearer {kakao_access_token}"}).json()
+        
+        print(user_request_response)
+
         # access_token = request_response['access_token']
         # refresh_token = request_response['refresh_token']
         # user_data = request_response['scope']
@@ -59,6 +73,6 @@ class KakaologinView(APIView):
         # print('userdata', user_data)
         # print(user_email)
 
-        temp = f"인가코드 : {authorization_code}, 응답 : {request_response}"
+        temp = f"인가코드 : {authorization_code}, 응답 : {user_request_response}"
 
         return Response(temp, status=status.HTTP_200_OK)
