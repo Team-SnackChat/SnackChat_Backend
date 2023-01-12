@@ -48,7 +48,7 @@ class KakaologinView(APIView):
         request_response = requests.post(
             f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={KAKAO_REST_API_KEY}&redirect_uri={redirect_uri}&code={authorization_code}&client_secret={CLIENT_SECRET}",
             headers={"Accept": "application/json"},
-        )
+        ).json()
 
         access_token = request_response['access_token']
         refresh_token = request_response['refresh_token']
