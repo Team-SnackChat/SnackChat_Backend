@@ -57,5 +57,6 @@ class KakaologinView(APIView):
         # user_email = user_data['email']
         # print('userdata', user_data)
         # print(user_email)
+        temp = f"인가코드 : {authorization_code}, 응답 : {request_response}"
 
-        return Response(request_response, status=status.HTTP_200_OK)
+        return Response(temp, status=status.HTTP_200_OK)
