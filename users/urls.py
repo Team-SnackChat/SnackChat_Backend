@@ -9,4 +9,5 @@ urlpatterns = [ # jwt
     path('api/token/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair'), # access 
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), # refesh
     path('login/token/', views.KakaologinView.as_view(), name='kakaologinview'),
+    path('test/', views.test.as_view(), name='test'),
 ]

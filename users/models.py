@@ -19,10 +19,9 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, nickname, password=None):
+    def create_superuser(self, nickname, password=None):
    
         user = self.create_user(
-            email,
             password=password,
             nickname=nickname,
         )
@@ -33,7 +32,7 @@ class UserManager(BaseUserManager):
 # 사용자모델 
 class User(AbstractBaseUser):
     email = models.EmailField("이메일" , max_length=255) 
-    nickname = models.CharField("닉네임", max_length=15)
+    nickname = models.CharField("닉네임", max_length=30)
     # profile_image = models.ImageField(default='/default_profile/default.PNG', upload_to=rename_imagefile_to_uuid)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

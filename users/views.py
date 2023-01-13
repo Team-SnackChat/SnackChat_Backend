@@ -15,7 +15,15 @@ from pathlib import Path
 from datetime import timedelta
 import os, json
 from django.core.exceptions import ImproperlyConfigured
+from django.http import HttpResponse
 
+class test(APIView):
+    def get(self, request):
+        response = Response("쿠키 테스트", status=status.HTTP_200_OK)
+        # response = HttpResponse("쿠키 테스트")
+        response.set_cookie(key='test', value='hihi', max_age=None, expires=None, path='/', domain=None, secure=False, httponly=False, samesite=None)
+        
+        return response
 # 로그인 토큰
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer 
@@ -49,13 +57,6 @@ class KakaologinView(APIView):
             f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={KAKAO_REST_API_KEY}&redirect_uri={redirect_uri}&code={authorization_code}&client_secret={CLIENT_SECRET}",
             headers={"Accept": "application/json"},
         ).json()
-        
-        """
-        {'access_token': 'S7PJEIRPnv_9GCHFpB5nZPLRHBB2fcI_C6NkVK7iCiolUQAAAYWl46gc', 
-        'token_type': 'bearer', 'refresh_token': 'vSPAoi-Ebu6lav-Qwj550_7t46OT1cTW1_nfVW4BCiolUQAAAYWl46gb', 
-        'expires_in': 21599, 'scope': 'account_email profile_nickname', 
-        'refresh_token_expires_in': 5183999}
-        """
 
         kakao_access_token = request_response['access_token']
 
@@ -63,16 +64,32 @@ class KakaologinView(APIView):
             f"https://kapi.kakao.com/v2/user/me",
             headers={"Authorization":f"Bearer {kakao_access_token}"}).json()
         
-        print(user_request_response)
+        user_email = user_request_response['kakao_account']['email']
+        user_nickname = user_request_response['properties']['nickname']
 
-        # access_token = request_response['access_token']
-        # refresh_token = request_response['refresh_token']
-        # user_data = request_response['scope']
-        # print(access_token)
-        # user_email = user_data['email']
-        # print('userdata', user_data)
-        # print(user_email)
-
-        temp = f"인가코드 : {authorization_code}, 응답 : {user_request_response}"
-
-        return Response(temp, status=status.HTTP_200_OK)
+        try:
+            social_user = SocialAccount.objects.filter(user=user_email).first()
+            # 로그인
+            if social_user:
+                # 소셜 계정이 다른 소셜 계정일때
+                if social_user.provider != "kakao":
+                    return Response({"error": "카카오로 가입한 유저가 아닙니다."}, status=status.HTTP_400_BAD_REQUEST)
+                
+                refresh = CustomTokenObtainPairSerializer.get_token(user_email)
+                return Response({'refresh': str(refresh), 'access': str(refresh.access_token), "msg" : "로그인 성공"}, status=status.HTTP_200_OK)
+        
+        except:
+            # user table에 생성
+            new_user = User.objects.create(
+                nickname=user_nickname,
+                email=user_email,
+            )
+            # social table에 생성
+            SocialAccount.objects.create(
+                user_id=new_user.id,
+                user=new_user.email,
+                username=user_nickname,
+                provider="kakao",
+            )
+            refresh = CustomTokenObtainPairSerializer.get_token(user_email)
+            return Response({'refresh': str(refresh), 'access': str(refresh.access_token), "msg" : "회원가입 성공"}, status=status.HTTP_200_OK)
