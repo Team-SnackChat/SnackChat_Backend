@@ -20,8 +20,7 @@ from django.http import HttpResponse
 class test(APIView):
     def get(self, request):
         response = Response("쿠키 테스트", status=status.HTTP_200_OK)
-        # response = HttpResponse("쿠키 테스트")
-        response.set_cookie(key='test', value='hihi', max_age=None, expires=None, path='/', domain=None, secure=False, httponly=False, samesite=None)
+        response.set_cookie(key='test', value='hihi', max_age=None, expires=None, path='/', domain=None, secure=False, httponly=True, samesite='None')
         
         return response
 # 로그인 토큰

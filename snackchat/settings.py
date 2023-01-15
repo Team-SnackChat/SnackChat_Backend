@@ -202,6 +202,8 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
 
+SESSION_COOKIE_SAMESITE = None
+
 # CSRF_TRUSTED_ORIGINS = [
 #     "http://change.allowed.com",
 # ]
