@@ -81,6 +81,7 @@ class KakaologinView(APIView):
                 refresh = CustomTokenObtainPairSerializer.get_token(new_user)
                 return Response({'refresh': str(refresh), 'access': str(refresh.access_token), "msg" : "회원가입 성공"}, status=status.HTTP_200_OK)
 
-            except:
+            except Exception as error:
                 # 로그인 오류
-                return Response({"msg" : "로그인 오류"}, status=status.HTTP_400_BAD_REQUEST)
+                # 추 후 error 로그 출력은 지워야 함
+                return Response({f"msg" : "로그인 오류, error log : {error}"}, status=status.HTTP_400_BAD_REQUEST)
