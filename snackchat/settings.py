@@ -59,11 +59,6 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     # add app
     'users',
-    # allauth, kakao
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.kakao',
 ]
 
 MIDDLEWARE = [
@@ -176,6 +171,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'users.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

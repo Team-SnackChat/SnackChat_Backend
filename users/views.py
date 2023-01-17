@@ -10,12 +10,10 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView   
 )
 #from rest_framework.permissions import IsAuthenticated
-from allauth.socialaccount.models import SocialAccount
 from pathlib import Path
 from datetime import timedelta
 import os, json
 from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponse
 
 class test(APIView):
     def get(self, request):
@@ -49,9 +47,6 @@ class KakaologinView(APIView):
         CLIENT_SECRET = get_secret('CLIENT_SECRET')
         redirect_uri = "http://localhost:3000/kakao-loading"
         
-        print(KAKAO_REST_API_KEY)
-        print(CLIENT_SECRET)
-        
         request_response = requests.post(
             f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={KAKAO_REST_API_KEY}&redirect_uri={redirect_uri}&code={authorization_code}&client_secret={CLIENT_SECRET}",
             headers={"Accept": "application/json"},
@@ -65,30 +60,27 @@ class KakaologinView(APIView):
         
         user_email = user_request_response['kakao_account']['email']
         user_nickname = user_request_response['properties']['nickname']
-
+        provider = 'kakao'
+        
         try:
-            social_user = SocialAccount.objects.filter(user=user_email).first()
-            # 로그인
-            if social_user:
-                # 소셜 계정이 다른 소셜 계정일때
-                if social_user.provider != "kakao":
-                    return Response({"error": "카카오로 가입한 유저가 아닙니다."}, status=status.HTTP_400_BAD_REQUEST)
-                
-                refresh = CustomTokenObtainPairSerializer.get_token(user_email)
-                return Response({'refresh': str(refresh), 'access': str(refresh.access_token), "msg" : "로그인 성공"}, status=status.HTTP_200_OK)
+            # user가 있는지 체크
+            user = User.objects.get(email=user_email, provider=provider)
+
+            refresh = CustomTokenObtainPairSerializer.get_token(user)
+            return Response({'refresh': str(refresh), 'access': str(refresh.access_token), "msg" : "로그인 성공"}, status=status.HTTP_200_OK)
         
         except:
             # user table에 생성
-            new_user = User.objects.create(
-                nickname=user_nickname,
-                email=user_email,
-            )
-            # social table에 생성
-            SocialAccount.objects.create(
-                user_id=new_user.id,
-                user=new_user.email,
-                username=user_nickname,
-                provider="kakao",
-            )
-            refresh = CustomTokenObtainPairSerializer.get_token(user_email)
-            return Response({'refresh': str(refresh), 'access': str(refresh.access_token), "msg" : "회원가입 성공"}, status=status.HTTP_200_OK)
+            try:
+                new_user = User.objects.create(
+                    nickname=user_nickname,
+                    email=user_email,
+                    provider=provider
+                )
+
+                refresh = CustomTokenObtainPairSerializer.get_token(new_user)
+                return Response({'refresh': str(refresh), 'access': str(refresh.access_token), "msg" : "회원가입 성공"}, status=status.HTTP_200_OK)
+
+            except:
+                # 로그인 오류
+                return Response({"msg" : "로그인 오류"}, status=status.HTTP_400_BAD_REQUEST)
