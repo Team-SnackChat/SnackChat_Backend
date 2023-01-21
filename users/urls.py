@@ -10,4 +10,5 @@ urlpatterns = [ # jwt
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), # refesh
     path('login/kakao/token/', views.KakaologinView.as_view(), name='kakaologinview'),
     path('test/', views.test.as_view(), name='test'),
+    path('test2/', views.test2.as_view(), name='test'),
 ]

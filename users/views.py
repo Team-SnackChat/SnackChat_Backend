@@ -21,11 +21,50 @@ class test(APIView):
         response.set_cookie(key='test', value='hihi', max_age=None, expires=None, path='/', domain=None, secure=False, httponly=True, samesite='None')
         
         return response
+
+
 # 로그인 토큰
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer 
 
 
+class test2(APIView):
+    def get(self, request):
+        temp = User.objects.last().id
+        print(temp)
+        
+        return Response('')
+class Userfuc:
+    def checkusernickname(nickname, num=None):
+        if num == None:
+            try:
+                last_user_id = User.objects.last().id
+            except:
+                # 처음 가입 시 objects가 없음
+                last_user_id = 0
+        else:
+            # 중복 nickname이 있어 num 매개변수에 값이 있음
+            last_user_id = num + 1
+
+        num = last_user_id
+
+        # nickname ex) carrot#1996
+        if last_user_id >= 10000:
+            last_user_id %= 10000
+        
+        number_nickname = str(last_user_id + 1)
+        
+        while len(number_nickname) < 4:
+            number_nickname = '0' + number_nickname
+        
+        result_nickname = f'{nickname}#{number_nickname}'
+
+        verify_nickname = User.objects.filter(nickname=result_nickname)
+        
+        if verify_nickname:
+            return Userfuc.checkusernickname(nickname, num)
+        
+        return result_nickname
 class KakaologinView(APIView):
     def post(self, request):
         authorization_code = request.data['authorization_code']
@@ -72,8 +111,11 @@ class KakaologinView(APIView):
         except:
             # user table에 생성
             try:
+                # nickname 뒤에 # 붙여주기
+                afterconvert_user_nickname = Userfuc.checkusernickname(user_nickname)
+
                 new_user = User.objects.create(
-                    nickname=user_nickname,
+                    nickname=afterconvert_user_nickname,
                     email=user_email,
                     provider=provider
                 )
