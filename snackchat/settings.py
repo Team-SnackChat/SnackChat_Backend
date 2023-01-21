@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     # add app
     'users',
+    'chats',
 ]
 
 MIDDLEWARE = [
@@ -139,6 +140,7 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
+ASGI_APPLICATION = 'snackchat.asgi.application'
 WSGI_APPLICATION = 'snackchat.wsgi.application'
 
 
