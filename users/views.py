@@ -34,6 +34,8 @@ class test2(APIView):
         print(temp)
         
         return Response('')
+
+
 class Userfuc:
     def checkusernickname(nickname, num=None):
         if num == None:
@@ -65,6 +67,8 @@ class Userfuc:
             return Userfuc.checkusernickname(nickname, num)
         
         return result_nickname
+
+
 class KakaologinView(APIView):
     def post(self, request):
         authorization_code = request.data['authorization_code']
