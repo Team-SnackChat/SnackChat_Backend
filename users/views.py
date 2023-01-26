@@ -47,20 +47,17 @@ class Userfuc:
         else:
             # 중복 nickname이 있어 num 매개변수에 값이 있음
             last_user_id = num + 1
-
+            
         num = last_user_id
-
         # nickname ex) carrot#1996
         if last_user_id >= 10000:
             last_user_id %= 10000
-        
         number_nickname = str(last_user_id + 1)
         
         while len(number_nickname) < 4:
             number_nickname = '0' + number_nickname
         
         result_nickname = f'{nickname}#{number_nickname}'
-
         verify_nickname = User.objects.filter(nickname=result_nickname)
         
         if verify_nickname:
