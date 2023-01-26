@@ -8,3 +8,4 @@ channels==4.0.0
 channels-redis==4.0.0
 daphne==4.0.0
 redis==4.4.0
+Pillow==9.2.0
