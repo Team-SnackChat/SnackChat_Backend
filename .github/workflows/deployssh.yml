@@ -1,0 +1,40 @@
+name: deploy ssh to aws ec2
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    name: Build
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: executing remote ssh commands using password
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script_stop: true
+          script: |
+            pwd
+            source /home/carrot/venv/bin/activate
+            cd /home/carrot/SnackChat/backend/django
+            git pull origin main
+            pip install -r requirements.txt
+            python manage.py migrate
+            cd /home/carrot/SnackChat
+            ./dockerdown.sh
+            ./dockerup.sh
