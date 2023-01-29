@@ -34,6 +34,4 @@ jobs:
             python manage.py migrate
             cd /home/carrot/SnackChat
             ./dockerdown.sh
-            ${{ secrets.PASSWORD }}
             ./dockerup.sh
-            ${{ secrets.PASSWORD }}
