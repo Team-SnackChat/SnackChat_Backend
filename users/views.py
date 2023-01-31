@@ -15,6 +15,11 @@ from datetime import timedelta
 import os, json
 from django.core.exceptions import ImproperlyConfigured
 
+class check(APIView):
+    def get(self, request):
+        return Response('healthcheck', status=status.HTTP_200_OK)
+
+
 class test(APIView):
     def get(self, request):
         response = Response("쿠키 테스트", status=status.HTTP_200_OK)
