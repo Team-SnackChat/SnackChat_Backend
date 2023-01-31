@@ -203,7 +203,7 @@ MEDIA_URL = "/media/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+CORS_ORIGIN_WHITELIST = ['http://localhost:3000', 'https://nakvin96.github.io']
 
 # CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -213,6 +213,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + ['Set-Cookie']
 # 나중에 프론트 배포하면 넣어줄 domain 목록
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'https://nakvin96.github.io'
 ]
 
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
