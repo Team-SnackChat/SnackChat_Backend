@@ -205,7 +205,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
-    'https://nakevin96.github.io'
+    'https://nakevin96.github.io',
+    'https://carrotww.shop',
+    'http://carrotww.shop'
     ]
 
 # CORS_ORIGIN_ALLOW_ALL = True
