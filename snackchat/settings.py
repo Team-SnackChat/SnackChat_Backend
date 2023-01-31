@@ -204,12 +204,12 @@ MEDIA_URL = "/media/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    'https://nakevin96.github.io',
-    'https://*.carrotww.shop',
-    'http://carrotww.shop',
-    'http://13.209.87.132',
-    'https://13.209.87.132',
+    "http://localhost:3000",
+    "https://nakevin96.github.io",
+    "https://*.carrotww.shop",
+    "http://carrotww.shop",
+    "http://13.209.87.132",
+    "https://13.209.87.132",
     ]
 
 # CORS_ORIGIN_ALLOW_ALL = True
