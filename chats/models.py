@@ -8,7 +8,7 @@ class ChatRoom(models.Model):
 
 class Server(models.Model):
     server_name = models.CharField(max_length=15)
-    is_open = models.BooleanField()
+    is_open = models.BooleanField(default=False)
     # True -> 공개 서버, False -> 비공개 서버
     server_profile = models.ImageField(upload_to=rename_serverimagefile_to_uuid, default='chats/default.PNG', blank=True, null=True)
     user = models.ManyToManyField(User, related_name='server_user')

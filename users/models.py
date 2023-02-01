@@ -18,10 +18,19 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
+    
+    def create_user_admin(self, nickname, password=None):
+        user = self.model(
+            nickname = nickname
+            )
+        
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
     def create_superuser(self, nickname, password=None):
    
-        user = self.create_user(
+        user = self.create_user_admin(
             password=password,
             nickname=nickname,
         )
