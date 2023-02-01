@@ -223,15 +223,11 @@ CORS_ALLOW_HEADERS = list(default_headers) + ['Set-Cookie']
 CORS_ALLOWED_ORIGINS = CORS_ORIGIN_WHITELIST
 # csrf 허용 도메인 목록
 CSRF_TRUSTED_ORIGINS = [
-    'http://www.carrotww.shop',
-    'https://www.carrotww.shop',
-    'http://carrotww.shop',
-    'https://carrotww.shop']
+    "http://www.carrotww.shop",
+    "https://www.carrotww.shop",
+    "http://carrotww.shop",
+    "https://carrotww.shop"]
 
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
 
 SESSION_COOKIE_SAMESITE = None
-
-# CSRF_TRUSTED_ORIGINS = [
-#     "http://change.allowed.com",
-# ]
