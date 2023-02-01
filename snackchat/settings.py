@@ -206,9 +206,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "https://nakevin96.github.io",
-    "https://*.carrotww.shop",
-    "http://carrotww.shop.*",
-    "http://www.carrotww.shop.*",
+    "https://carrotww.shop",
+    "http://carrotww.shop",
+    "http://www.carrotww.shop",
+    "https://www.carrotww.shop",
     "http://13.209.87.132",
     "https://13.209.87.132",
     ]
@@ -221,7 +222,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + ['Set-Cookie']
 # 나중에 프론트 배포하면 넣어줄 domain 목록
 CORS_ALLOWED_ORIGINS = CORS_ORIGIN_WHITELIST
 # csrf 허용 도메인 목록
-CSRF_TRUSTED_ORIGINS = ('http://*', 'https://*')
+CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST
 
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
 

@@ -26,7 +26,6 @@ class CreateRoom(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        print(text_data_json)
         room_id = text_data_json['room_id']
         message = text_data_json['message']
         sender_id = text_data_json['sender_id']
@@ -116,4 +115,4 @@ class CreateRoom(AsyncWebsocketConsumer):
     
     @database_sync_to_async
     def create_chat_log(self, room_object, sender, content):
-        RoomMessage.objects.create(room=room_object, user=sender, content=content)
+        ChatMessages.objects.create(room=room_object, user=sender, content=content)
