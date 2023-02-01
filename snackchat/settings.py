@@ -209,7 +209,8 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "https://nakevin96.github.io",
     "https://*.carrotww.shop",
-    "http://carrotww.shop",
+    "http://carrotww.shop.*",
+    "http://www.carrotww.shop.*",
     "http://13.209.87.132",
     "https://13.209.87.132",
     ]
