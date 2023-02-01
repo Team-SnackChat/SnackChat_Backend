@@ -213,7 +213,7 @@ CORS_ORIGIN_WHITELIST = [
     "https://13.209.87.132",
     ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_HEADERS = list(default_headers) + ['Set-Cookie']
@@ -221,7 +221,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + ['Set-Cookie']
 # 나중에 프론트 배포하면 넣어줄 domain 목록
 CORS_ALLOWED_ORIGINS = CORS_ORIGIN_WHITELIST
 # csrf 허용 도메인 목록
-# CSRF_TRUSTED_ORIGINS = CORS_ORIGIN_WHITELIST
+CSRF_TRUSTED_ORIGINS = ('http://*', 'https://*')
 
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE']
 
