@@ -6,6 +6,7 @@ from django.db.models import Q
 from .models import ChatRoom, Server
 import json
 from rest_framework.permissions import IsAuthenticated
+from .serializers import ChatRoomSerializer
 
 # Create your views here.
 class ServerListView(APIView):
@@ -15,4 +16,4 @@ class ServerListView(APIView):
         user = request.user
         contain_user_server = user.server_user.all()
         
-        return Response()
+        return Response(contain_user_server, status=status.HTTP_200_OK)
