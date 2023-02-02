@@ -15,8 +15,9 @@ class ServerListView(APIView):
     def get(self, request):
         user = request.user
         contain_user_server = user.server_user.all()
-        slz = ServerListSerializer(contain_user_server)
-        if slz.is_valid():
-            return Response(slz, status=status.HTTP_200_OK)
-        else:
-            return Response({"msg": "없음"}, status=status.HTTP_404_NOT_FOUND)
+        # slz = ServerListSerializer(contain_user_server)
+        # if slz.is_valid():
+        #     return Response(slz, status=status.HTTP_200_OK)
+        # else:
+        #     return Response({"msg": "없음"}, status=status.HTTP_404_NOT_FOUND)
+        return Response(contain_user_server, status=status.HTTP_200_OK)
