@@ -28,6 +28,9 @@ class ServerChatRoomListView(APIView):
     permission_classes = [IsAuthenticated]
     
     def get(self, request, server_id):
-        
-
-        return
+        chatroom = ChatRoom.objects.filter(id=server_id)
+        slz = ChatRoomSerializer(chatroom, many=True)
+        if slz.data:
+            return Response(slz.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"msg": "채팅방을 만들어 주세요"}, status=status.HTTP_404_NOT_FOUND)
