@@ -15,6 +15,9 @@ class Server(models.Model):
     chat_room = models.ManyToManyField(ChatRoom, related_name='server_chat_room', blank=True)
     # voice_room = models.ManyToManyField()
 
+    def __str__(self):
+        return str(self.server_name)
+
 class ChatMessages(models.Model):
     chatroom = models.ForeignKey(ChatRoom, on_delete=models.CASCADE, related_name='chatmessages_chatroom')
     sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
