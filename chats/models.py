@@ -25,3 +25,6 @@ class ChatMessages(models.Model):
     images = models.ImageField(upload_to=rename_chatimagefile_to_uuid, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.chatroom)
