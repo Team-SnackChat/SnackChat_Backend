@@ -5,6 +5,9 @@ from .utils import rename_serverimagefile_to_uuid, rename_chatimagefile_to_uuid
 class ChatRoom(models.Model):
     chatroom_name = models.CharField(max_length=15)
 
+    def __str__(self):
+        return f'id: {str(self.id)}, chatroom_name: {str(self.chatroom_name)}'
+
 
 class Server(models.Model):
     server_name = models.CharField(max_length=15)
@@ -16,7 +19,7 @@ class Server(models.Model):
     # voice_room = models.ManyToManyField()
 
     def __str__(self):
-        return str(self.server_name)
+        return f'id: {str(self.id)}, server_name: {str(self.server_name)}'
 
 class ChatMessages(models.Model):
     chatroom = models.ForeignKey(ChatRoom, on_delete=models.CASCADE, related_name='chatmessages_chatroom')
@@ -27,4 +30,4 @@ class ChatMessages(models.Model):
     is_read = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.chatroom)
+        return f'id: {str(self.id)}, message: {str(self.message)}'

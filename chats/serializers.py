@@ -17,15 +17,15 @@ class ChatRoomSerializer(serializers.ModelSerializer):
 
 class RoomMessageSerializer(serializers.ModelSerializer):
     cur_time = serializers.SerializerMethodField()
-    user = serializers.SerializerMethodField()
+    sender = serializers.SerializerMethodField()
     date = serializers.SerializerMethodField()
     user_profile = serializers.SerializerMethodField()
 
-    def get_user(self, obj):
-        return obj.user.email
+    def get_sender(self, obj):
+        return obj.sender.email
     
     def get_user_profile(self, obj):
-        return f'{obj.user.profile_image}'
+        return f'{obj.sender.profile_image}'
 
     def get_cur_time(self, obj):
         ampm = obj.created_at.strftime('%p')
