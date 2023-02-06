@@ -35,6 +35,7 @@ class CreateRoom(AsyncWebsocketConsumer):
         sender = await self.get_user_db(sender_id)
         room_object = await self.get_chatroom_db(room_id)
         user_email = await self.get_user_email(sender_id)
+        is_read = False
 
         sender_profile_image = sender.profile_image
 
@@ -45,7 +46,7 @@ class CreateRoom(AsyncWebsocketConsumer):
             print('message가 없습니다.')
             return
         
-        await self.create_chat_log(room_object, sender, message, images, is_read)
+        await self.create_chat_log(room_object, sender, message, images)
 
         cur_datetime = datetime.now()
         ampm = cur_datetime.strftime('%p')
@@ -124,5 +125,5 @@ class CreateRoom(AsyncWebsocketConsumer):
         return None
     
     @database_sync_to_async
-    def create_chat_log(self, room_object, sender, message, images, is_read):
-        ChatMessages.objects.create(chatroom=room_object, sender=sender, message=message, images=images, is_read=is_read)
+    def create_chat_log(self, room_object, sender, message, images):
+        ChatMessages.objects.create(chatroom=room_object, sender=sender, message=message, images=images)
