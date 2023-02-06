@@ -35,10 +35,8 @@ class CreateRoom(AsyncWebsocketConsumer):
         sender = await self.get_user_db(sender_id)
         room_object = await self.get_chatroom_db(room_id)
         user_email = await self.get_user_email(sender_id)
-        # sender_profile_image = await self.get_user_profile(sender_id)
         is_read = False
-
-        sender_profile_image = sender.profile_image
+        # sender_profile_image = sender.profile_image
 
         if not sender:
             print('Sender user가 조회되지 않습니다.')
