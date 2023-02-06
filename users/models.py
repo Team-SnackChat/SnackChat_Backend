@@ -43,7 +43,7 @@ class User(AbstractBaseUser):
     email = models.EmailField("이메일" , max_length=255) 
     nickname = models.CharField("닉네임", max_length=30, unique=True)
     provider = models.CharField(max_length=30)
-    # profile_image = models.ImageField(default='/default_profile/default.PNG', upload_to=rename_imagefile_to_uuid)
+    profile_image = models.ImageField(default='/default_profile/default.PNG', upload_to=rename_imagefile_to_uuid)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     objects = UserManager()

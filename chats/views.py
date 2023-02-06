@@ -7,7 +7,7 @@ from django.db.models import Q
 from .models import ChatRoom, Server
 import json
 from rest_framework.permissions import IsAuthenticated
-from .serializers import ChatRoomSerializer, ServerListSerializer
+from .serializers import ChatRoomSerializer, ServerListSerializer, ChatRoomLogSerializer
 
 # 로그인된 유저의 서버방 리스트를 반환하는 함수
 class ServerListView(APIView):
@@ -34,3 +34,17 @@ class ServerChatRoomListView(APIView):
             return Response(slz.data, status=status.HTTP_200_OK)
         else:
             return Response({"msg": "채팅방을 만들어 주세요"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ChatRoomLogView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, chatroom_id):
+        try:
+            check_chatroom_exist = ChatRoom.objects.get(id=chatroom_id)
+        except:
+            return Response({"msg": "채팅방이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+        
+        slz = ChatRoomLogSerializer(check_chatroom_exist)
+        
+        return Response(slz.data, status=status.HTTP_200_OK)
