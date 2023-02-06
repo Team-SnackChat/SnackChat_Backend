@@ -59,7 +59,7 @@ class CreateRoom(AsyncWebsocketConsumer):
             'sender': sender.id,
             'room_id': room_id,
             'message': message,
-            'imgaes' : f'{images}',
+            'images' : f'{images}',
             'is_read': is_read,
             'cur_time': cur_time,
             'date': date,
