@@ -35,6 +35,7 @@ class CreateRoom(AsyncWebsocketConsumer):
         sender = await self.get_user_db(sender_id)
         room_object = await self.get_chatroom_db(room_id)
         user_email = await self.get_user_email(sender_id)
+        # sender_profile_image = await self.get_user_profile(sender_id)
         is_read = False
 
         sender_profile_image = sender.profile_image
@@ -65,7 +66,7 @@ class CreateRoom(AsyncWebsocketConsumer):
             'cur_time': cur_time,
             'date': date,
             'user': user_email,
-            'profile_image': f'{sender_profile_image}'
+            # 'profile_image': f'{sender_profile_image}'
             }
         
         await self.channel_layer.group_send(
@@ -88,7 +89,7 @@ class CreateRoom(AsyncWebsocketConsumer):
         date = message_data['date']
         room_id = message_data['room_id']
         user = message_data['user']
-        profile_image = message_data['profile_image']
+        # profile_image = message_data['profile_image']
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
@@ -100,7 +101,7 @@ class CreateRoom(AsyncWebsocketConsumer):
             "date": date,
             "room_id": room_id,
             'user': user,
-            'profile_image': profile_image
+            # 'profile_image': profile_image
             }))
 
     @database_sync_to_async
