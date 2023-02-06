@@ -29,6 +29,8 @@ class CreateRoom(AsyncWebsocketConsumer):
         room_id = text_data_json['room_id']
         message = text_data_json['message']
         sender_id = text_data_json['sender_id']
+        is_read = text_data_json['is_read']
+        images = text_data_json['images']
         
         sender = await self.get_user_db(sender_id)
         room_object = await self.get_chatroom_db(room_id)
@@ -38,11 +40,12 @@ class CreateRoom(AsyncWebsocketConsumer):
 
         if not sender:
             print('Sender user가 조회되지 않습니다.')
+            return
         if not message:
             print('message가 없습니다.')
             return
         
-        await self.create_chat_log(room_object, sender, message)
+        await self.create_chat_log(room_object, sender, message, images, is_read)
 
         cur_datetime = datetime.now()
         ampm = cur_datetime.strftime('%p')
@@ -55,6 +58,9 @@ class CreateRoom(AsyncWebsocketConsumer):
             'message': message,
             'sender': sender.id,
             'room_id': room_id,
+            'message': message,
+            'imgaes' : f'{images}',
+            'is_read': is_read,
             'cur_time': cur_time,
             'date': date,
             'user': user_email,
@@ -75,6 +81,8 @@ class CreateRoom(AsyncWebsocketConsumer):
         message_data = json.loads(event['message'])
         message = message_data['message']
         sender = message_data['sender']
+        images = message_data['images']
+        is_read = message_data['is_read']
         cur_time = message_data['cur_time']
         date = message_data['date']
         room_id = message_data['room_id']
@@ -85,6 +93,8 @@ class CreateRoom(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             "message": message,
             "sender": sender,
+            "images": images,
+            "is_read": is_read,
             "cur_time": cur_time,
             "date": date,
             "room_id": room_id,
@@ -114,5 +124,5 @@ class CreateRoom(AsyncWebsocketConsumer):
         return None
     
     @database_sync_to_async
-    def create_chat_log(self, room_object, sender, content):
-        ChatMessages.objects.create(room=room_object, user=sender, content=content)
+    def create_chat_log(self, room_object, sender, message, images, is_read):
+        ChatMessages.objects.create(chatroom=room_object, sender=sender, message=message, images=images, is_read=is_read)
