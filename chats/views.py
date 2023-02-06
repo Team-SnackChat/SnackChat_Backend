@@ -37,7 +37,7 @@ class ServerChatRoomListView(APIView):
 
 
 class ChatRoomLogView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     
     def get(self, request, chatroom_id):
         try:

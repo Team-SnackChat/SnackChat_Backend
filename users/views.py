@@ -28,9 +28,9 @@ class test(APIView):
         return response
 
 
-# 로그인 토큰
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer 
+# # 로그인 토큰
+# class CustomTokenObtainPairView(TokenObtainPairView):
+#     serializer_class = CustomTokenObtainPairSerializer 
 
 
 class test2(APIView):
