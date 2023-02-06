@@ -22,7 +22,11 @@ class RoomMessageSerializer(serializers.ModelSerializer):
     user_profile = serializers.SerializerMethodField()
 
     def get_sender(self, obj):
-        return obj.sender.nickname
+        try:
+            nickname = obj.sender.nickname.split('#')[0]
+        except:
+            return obj.sender.nickname
+        return nickname
     
     def get_user_profile(self, obj):
         return f'{obj.sender.profile_image}'
