@@ -29,7 +29,7 @@ class CreateRoom(AsyncWebsocketConsumer):
         room_id = text_data_json['room_id']
         message = text_data_json['message']
         sender_id = text_data_json['sender_id']
-        is_read = text_data_json['is_read']
+        # is_read = text_data_json['is_read']
         images = text_data_json['images']
         
         sender = await self.get_user_db(sender_id)
