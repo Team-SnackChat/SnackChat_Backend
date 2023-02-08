@@ -45,6 +45,11 @@ class CreateRoom(AsyncWebsocketConsumer):
             return
         
         await self.create_chat_log(room_object, sender, message, images)
+        
+        try:
+            sender = sender.nickname.split('#')[0]
+        except:
+            sender = sender.email
 
         cur_datetime = datetime.now()
         ampm = cur_datetime.strftime('%p')
@@ -52,10 +57,11 @@ class CreateRoom(AsyncWebsocketConsumer):
         cur_time = datetime.now().strftime('%I:%M')
         date = datetime.now().strftime('%Y년 %m월 %d일')
         cur_time = f"AM {cur_time}" if ampm == 'AM' else f"PM {cur_time}"
+        
 
         response_json = {
             'message': message,
-            'sender': sender.id,
+            'sender': sender,
             'room_id': room_id,
             'message': message,
             'images' : f'{images}',

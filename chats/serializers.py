@@ -25,7 +25,7 @@ class RoomMessageSerializer(serializers.ModelSerializer):
         try:
             nickname = obj.sender.nickname.split('#')[0]
         except:
-            return obj.sender.nickname
+            return obj.sender.email
         return nickname
     
     def get_user_profile(self, obj):
