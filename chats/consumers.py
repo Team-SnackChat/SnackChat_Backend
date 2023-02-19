@@ -68,7 +68,7 @@ class CreateRoom(AsyncWebsocketConsumer):
             'is_read': is_read,
             'cur_time': cur_time,
             'date': date,
-            'user': user_email,
+            'email': user_email,
             'profile_image': f'{sender_profile_image}'
             }
         
@@ -91,7 +91,7 @@ class CreateRoom(AsyncWebsocketConsumer):
         cur_time = message_data['cur_time']
         date = message_data['date']
         room_id = message_data['room_id']
-        user = message_data['user']
+        email = message_data['email']
         profile_image = message_data['profile_image']
 
         # Send message to WebSocket
@@ -103,7 +103,7 @@ class CreateRoom(AsyncWebsocketConsumer):
             "cur_time": cur_time,
             "date": date,
             "room_id": room_id,
-            'user': user,
+            'email': email,
             'profile_image': profile_image
             }))
 
