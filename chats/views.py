@@ -43,7 +43,7 @@ class CreateServerView(APIView):
     def post(self, request):
         slz = CreateServerSerializer(data=request.data)
         if slz.is_valid():
-            slz.save(user=request.user)
+            slz.save(user=[request.user])
             return Response({"success": "서버를 생성하였습니다."}, status=status.HTTP_200_OK)
         else:
             return Response({"msg": "서버 생성을 실패했습니다."}, status=status.HTTP_404_NOT_FOUND)
