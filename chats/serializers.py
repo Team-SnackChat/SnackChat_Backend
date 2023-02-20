@@ -49,3 +49,9 @@ class ChatRoomLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatRoom
         fields = '__all__'
+
+
+class CreateServerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Server
+        fields = '__all__'
