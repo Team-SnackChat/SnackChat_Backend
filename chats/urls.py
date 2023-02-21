@@ -6,4 +6,5 @@ urlpatterns = [
     path('servers/create/', views.CreateServerView.as_view()),
     path('servers/<int:server_id>/', views.ServerChatRoomListView.as_view()),
     path('chatlogs/<int:chatroom_id>/', views.ChatRoomLogView.as_view()),
+    path('chatroom/create/', views.CreateChatRoomView.as_view()),
 ]

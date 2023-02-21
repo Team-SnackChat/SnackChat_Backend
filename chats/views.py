@@ -8,7 +8,7 @@ from .models import ChatRoom, Server
 import json
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListAPIView
-from .serializers import ChatRoomSerializer, ServerListSerializer, ChatRoomLogSerializer, CreateServerSerializer
+from .serializers import ChatRoomSerializer, ServerListSerializer, ChatRoomLogSerializer, CreateServerSerializer, CreateChatRoomView
 
 # 로그인된 유저의 서버방 리스트를 반환하는 함수
 class ServerListView(APIView):
@@ -62,15 +62,13 @@ class ChatRoomLogView(APIView):
         
         return Response(slz.data, status=status.HTTP_200_OK)
 
-class ChatRoomLogView(APIView):
-    # permission_classes = [IsAuthenticated]
+
+class CreateChatRoomView(APIView):
     
-    def get(self, request, chatroom_id):
-        try:
-            check_chatroom_exist = ChatRoom.objects.get(id=chatroom_id)
-        except:
-            return Response({"msg": "채팅방이 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
-        
-        slz = ChatRoomLogSerializer(check_chatroom_exist)
-        
-        return Response(slz.data, status=status.HTTP_200_OK)
+    def post(self, request):
+        slz = CreateChatRoomView(data=request.data)
+        if slz.is_valid():
+            slz.save()
+            return Response({"success": "채팅 서버를 생성하였습니다."}, status=status.HTTP_200_OK)
+        else:
+            return Response({"msg": "채팅서버 생성을 실패했습니다."}, status=status.HTTP_404_NOT_FOUND)
