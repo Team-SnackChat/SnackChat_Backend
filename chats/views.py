@@ -8,7 +8,7 @@ from .models import ChatRoom, Server
 import json
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListAPIView
-from .serializers import ChatRoomSerializer, ServerListSerializer, ChatRoomLogSerializer, CreateServerSerializer, CreateChatRoomView
+from .serializers import ChatRoomSerializer, ServerListSerializer, ChatRoomLogSerializer, CreateServerSerializer, CreateChatRoomSerialize
 
 # 로그인된 유저의 서버방 리스트를 반환하는 함수
 class ServerListView(APIView):
@@ -66,7 +66,7 @@ class ChatRoomLogView(APIView):
 class CreateChatRoomView(APIView):
     
     def post(self, request):
-        slz = CreateChatRoomView(data=request.data)
+        slz = CreateChatRoomSerialize(data=request.data)
         if slz.is_valid():
             slz.save()
             return Response({"success": "채팅 서버를 생성하였습니다."}, status=status.HTTP_200_OK)

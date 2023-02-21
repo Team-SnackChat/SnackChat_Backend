@@ -61,7 +61,7 @@ class CreateServerSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CreateChatRoomView(serializers.ModelSerializer):
+class CreateChatRoomSerialize(serializers.ModelSerializer):
     class Meta:
         model = ChatRoom
         fields = '__all__'
