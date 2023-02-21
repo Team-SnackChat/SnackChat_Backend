@@ -45,7 +45,7 @@ class RoomMessageSerializer(serializers.ModelSerializer):
         return obj.created_at.strftime('%Y년 %m월 %d일')
     class Meta:
         model = ChatMessages
-        fields = ('id', 'message', 'sender', 'chatroom', 'email', 'sender', 'profile_image', 'cur_time', 'date', 'images', 'is_read')
+        fields = ('id', 'message', 'sender', 'chatroom', 'email', 'sender', 'profile_image', 'cur_time', 'date', 'images', 'is_read', 'created_at')
 
 
 class ChatRoomLogSerializer(serializers.ModelSerializer):
