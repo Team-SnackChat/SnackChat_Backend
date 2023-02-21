@@ -28,7 +28,7 @@ class CreateRoom(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         chatroom = text_data_json['chatroom']
         message = text_data_json['message']
-        sender_id = text_data_json['sender_id']
+        sender_id = text_data_json['sender']
         images = text_data_json['images']
         
         sender = await self.get_user_db(sender_id)
