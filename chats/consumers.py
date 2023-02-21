@@ -44,7 +44,7 @@ class CreateRoom(AsyncWebsocketConsumer):
             print('message가 없습니다.')
             return
         
-        id, created_at = await self.create_chat_log(room_object, sender, message, images)
+        id = await self.create_chat_log(room_object, sender, message, images)
         
         try:
             sender = sender.nickname.split('#')[0]
@@ -61,7 +61,6 @@ class CreateRoom(AsyncWebsocketConsumer):
 
         response_json = {
             'id': id,
-            'created_at': created_at,
             'message': message,
             'sender': sender,
             'chatroom': chatroom,
@@ -87,7 +86,6 @@ class CreateRoom(AsyncWebsocketConsumer):
 
         message_data = json.loads(event['message'])
         id = message_data['id']
-        created_at = message_data['created_at']
         message = message_data['message']
         sender = message_data['sender']
         images = message_data['images']
@@ -101,7 +99,6 @@ class CreateRoom(AsyncWebsocketConsumer):
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             "id": id,
-            "created_at": created_at,
             "message": message,
             "sender": sender,
             "images": images,
@@ -137,4 +134,4 @@ class CreateRoom(AsyncWebsocketConsumer):
     @database_sync_to_async
     def create_chat_log(self, room_object, sender, message, images):
         chat_log = ChatMessages.objects.create(chatroom=room_object, sender=sender, message=message, images=images)
-        return (chat_log.id, chat_log.created_at)
+        return chat_log.id
