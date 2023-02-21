@@ -49,6 +49,19 @@ class CreateServerView(APIView):
             return Response({"msg": "서버 생성을 실패했습니다."}, status=status.HTTP_404_NOT_FOUND)
 
 
+class ModifyServerView(APIView):
+    # permission_classes = [IsAuthenticated]
+    
+    def put(self, request, server_id):
+        server = get_object_or_404(Server, id=server_id)
+        slz = CreateServerSerializer(server, data=request.data)
+        if slz.is_valid():
+            slz.save()
+            return Response({"msg": "수정되었습니다"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"msg": "수정 실패했습니다"}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class ChatRoomLogView(APIView):
     # permission_classes = [IsAuthenticated]
     
@@ -64,6 +77,7 @@ class ChatRoomLogView(APIView):
 
 
 class CreateChatRoomView(APIView):
+    # permission_classes = [IsAuthenticated]
     
     def post(self, request):
         slz = CreateChatRoomSerialize(data=request.data)
@@ -72,3 +86,16 @@ class CreateChatRoomView(APIView):
             return Response({"success": "채팅 서버를 생성하였습니다."}, status=status.HTTP_200_OK)
         else:
             return Response({"msg": "채팅서버 생성을 실패했습니다."}, status=status.HTTP_404_NOT_FOUND)
+    
+
+class ModifyChatRoomNameView(APIView):
+    # permission_classes = [IsAuthenticated]
+    
+    def put(self, request, chatroom_id):
+        chatroom = get_object_or_404(ChatRoom, id=chatroom_id)
+        slz = CreateChatRoomSerialize(chatroom, data=request.data)
+        if slz.is_valid():
+            slz.save()
+            return Response({"msg": "수정되었습니다"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"msg": "수정 실패했습니다"}, status=status.HTTP_400_BAD_REQUEST)
