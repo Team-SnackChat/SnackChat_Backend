@@ -19,7 +19,11 @@ class RoomMessageSerializer(serializers.ModelSerializer):
     cur_time = serializers.SerializerMethodField()
     sender = serializers.SerializerMethodField()
     date = serializers.SerializerMethodField()
-    user_profile = serializers.SerializerMethodField()
+    profile_image = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
+
+    def get_email(self, obj):
+        return obj.sender.email
 
     def get_sender(self, obj):
         try:
@@ -28,7 +32,7 @@ class RoomMessageSerializer(serializers.ModelSerializer):
             return obj.sender.email
         return nickname
     
-    def get_user_profile(self, obj):
+    def get_profile_image(self, obj):
         return f'{obj.sender.profile_image}'
 
     def get_cur_time(self, obj):
@@ -41,7 +45,7 @@ class RoomMessageSerializer(serializers.ModelSerializer):
         return obj.created_at.strftime('%Y년 %m월 %d일')
     class Meta:
         model = ChatMessages
-        fields = '__all__'
+        fields = ('message', 'sender', 'room_id')
 
 
 class ChatRoomLogSerializer(serializers.ModelSerializer):

@@ -26,13 +26,13 @@ class CreateRoom(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        room_id = text_data_json['room_id']
+        chatroom = text_data_json['chatroom']
         message = text_data_json['message']
         sender_id = text_data_json['sender_id']
         images = text_data_json['images']
         
         sender = await self.get_user_db(sender_id)
-        room_object = await self.get_chatroom_db(room_id)
+        room_object = await self.get_chatroom_db(chatroom)
         user_email = await self.get_user_email(sender_id)
         is_read = False
         sender_profile_image = sender.profile_image
@@ -62,7 +62,7 @@ class CreateRoom(AsyncWebsocketConsumer):
         response_json = {
             'message': message,
             'sender': sender,
-            'room_id': room_id,
+            'chatroom': chatroom,
             'message': message,
             'images' : f'{images}',
             'is_read': is_read,
@@ -90,7 +90,7 @@ class CreateRoom(AsyncWebsocketConsumer):
         is_read = message_data['is_read']
         cur_time = message_data['cur_time']
         date = message_data['date']
-        room_id = message_data['room_id']
+        chatroom = message_data['chatroom']
         email = message_data['email']
         profile_image = message_data['profile_image']
 
@@ -102,7 +102,7 @@ class CreateRoom(AsyncWebsocketConsumer):
             "is_read": is_read,
             "cur_time": cur_time,
             "date": date,
-            "room_id": room_id,
+            "chatroom": chatroom,
             'email': email,
             'profile_image': profile_image
             }))
