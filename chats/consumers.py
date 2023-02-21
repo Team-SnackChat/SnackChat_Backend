@@ -137,4 +137,4 @@ class CreateRoom(AsyncWebsocketConsumer):
     @database_sync_to_async
     def create_chat_log(self, room_object, sender, message, images):
         chat_log = ChatMessages.objects.create(chatroom=room_object, sender=sender, message=message, images=images)
-        return (chat_log.id, chat_log.create_at)
+        return (chat_log.id, chat_log.created_at)
