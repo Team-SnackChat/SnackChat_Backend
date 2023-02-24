@@ -14,9 +14,9 @@ class Server(models.Model):
     is_open = models.BooleanField(default=False)
     # True -> 공개 서버, False -> 비공개 서버
     server_profile = models.ImageField(upload_to=rename_serverimagefile_to_uuid, default='chats/default.PNG', blank=True, null=True)
-    # server_profile = models.ImageField(upload_to=rename_serverimagefile_to_uuid, through='server_chatroom_mediate', default='chats/default.PNG', blank=True, null=True)
     user = models.ManyToManyField(User, blank=True)
     chat_room = models.ManyToManyField(ChatRoom, related_name='server_chat_room', blank=True)
+    # chat_room = models.ManyToManyField(ChatRoom, through='server_chatroom_mediate', related_name='server_chat_room', blank=True)
     # voice_room = models.ManyToManyField()
 
     def __str__(self):

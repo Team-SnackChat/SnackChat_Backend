@@ -43,14 +43,22 @@ class CreateServerView(APIView):
 
     def post(self, request):
         slz = CreateServerSerializer(data=request.data)
-        print(request.data)
-            
-        if slz.is_valid():
+
+        try:
+            slz.is_valid():
             default_chat_room = ChatRoom.objects.create(chatroom_name='일반채널')
             slz.save(user=[request.user], chat_room=[default_chat_room])
             return Response({"success": f"서버를 생성하였습니다!!!!!!.{request.data}"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"msg": "서버 생성을 실패했습니다."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            print(e)
+            return Response(e)
+        
+        # if slz.is_valid():
+        #     default_chat_room = ChatRoom.objects.create(chatroom_name='일반채널')
+        #     slz.save(user=[request.user], chat_room=[default_chat_room])
+        #     return Response({"success": f"서버를 생성하였습니다!!!!!!.{request.data}"}, status=status.HTTP_200_OK)
+        # else:
+        #     return Response({"msg": "서버 생성을 실패했습니다."}, status=status.HTTP_404_NOT_FOUND)
 
 
 # 서버 수정하는 함수
