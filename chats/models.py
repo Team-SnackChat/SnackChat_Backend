@@ -16,7 +16,7 @@ class Server(models.Model):
     server_profile = models.ImageField(upload_to=rename_serverimagefile_to_uuid, default='chats/default.PNG', blank=True, null=True)
     # server_profile = models.ImageField(upload_to=rename_serverimagefile_to_uuid, through='server_chatroom_mediate', default='chats/default.PNG', blank=True, null=True)
     user = models.ManyToManyField(User, blank=True)
-    chat_room = models.ManyToManyField(ChatRoom, on_delete=models.CASCADE, related_name='server_chat_room', blank=True)
+    chat_room = models.ManyToManyField(ChatRoom, related_name='server_chat_room', blank=True)
     # voice_room = models.ManyToManyField()
 
     def __str__(self):
