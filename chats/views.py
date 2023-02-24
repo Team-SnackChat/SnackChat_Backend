@@ -43,12 +43,21 @@ class CreateServerView(APIView):
 
     def post(self, request):
         slz = CreateServerSerializer(data=request.data)
-        default_chat_room = ChatRoom.objects.create(chatroom_name='일반채널')
-        if slz.is_valid():
+        try:
+            slz.is_valid()
+            default_chat_room = ChatRoom.objects.create(chatroom_name='일반채널')
             slz.save(user=[request.user], chat_room=[default_chat_room])
             return Response({"success": "서버를 생성하였습니다."}, status=status.HTTP_200_OK)
-        else:
-            return Response({"msg": "서버 생성을 실패했습니다."}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            print(e)
+            return Response({"msg": f"{e}"}, status=status.HTTP_404_NOT_FOUND)
+            
+        # if slz.is_valid():
+        #     default_chat_room = ChatRoom.objects.create(chatroom_name='일반채널')
+        #     slz.save(user=[request.user], chat_room=[default_chat_room])
+        #     return Response({"success": "서버를 생성하였습니다."}, status=status.HTTP_200_OK)
+        # else:
+        #     return Response({"msg": "서버 생성을 실패했습니다."}, status=status.HTTP_404_NOT_FOUND)
 
 
 # 서버 수정하는 함수
@@ -85,9 +94,11 @@ class CreateChatRoomView(APIView):
     # permission_classes = [IsAuthenticated]
     
     def post(self, request, server_id):
+        cur_server = get_object_or_404(Server, id=server_id)
         slz = CreateChatRoomSerialize(data=request.data)
         if slz.is_valid():
-            slz.save()
+            chat_room_obj = slz.save()
+            # cur_server = 
             return Response({"success": "채팅 서버를 생성하였습니다."}, status=status.HTTP_200_OK)
         else:
             return Response({"msg": "채팅서버 생성을 실패했습니다."}, status=status.HTTP_404_NOT_FOUND)
