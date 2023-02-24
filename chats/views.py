@@ -50,7 +50,7 @@ class CreateServerView(APIView):
             return Response({"success": "서버를 생성하였습니다."}, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
-            return Response({"msg": f"{e}"}, status=status.HTTP_404_NOT_FOUND)
+            return Response(e)
             
         # if slz.is_valid():
         #     default_chat_room = ChatRoom.objects.create(chatroom_name='일반채널')
