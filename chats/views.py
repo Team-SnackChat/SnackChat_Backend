@@ -45,7 +45,7 @@ class CreateServerView(APIView):
         slz = CreateServerSerializer(data=request.data)
 
         try:
-            slz.is_valid():
+            slz.is_valid()
             default_chat_room = ChatRoom.objects.create(chatroom_name='일반채널')
             slz.save(user=[request.user], chat_room=[default_chat_room])
             return Response({"success": f"서버를 생성하였습니다!!!!!!.{request.data}"}, status=status.HTTP_200_OK)
