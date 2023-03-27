@@ -43,7 +43,9 @@ class CreateServerView(APIView):
 
     def post(self, request):
         slz = CreateServerSerializer(data=request.data)
+        print('###')
         print(request.data)
+        print('###')
 
         if slz.is_valid():
             default_chat_room = ChatRoom.objects.create(chatroom_name='일반채널')
